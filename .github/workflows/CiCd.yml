@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,3 +17,17 @@ jobs:
         run: docker build -t ahmedbenchakhter/react_app-ci_cd .
       - name: Publish Image to docker hub
         run: docker push ahmedbenchakhter/react_app-ci_cd:latest
+
+  deploy:
+    needs: build
+    runs-on: [ubuntu-runner]
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull ahmedbenchakhter/react_app-ci_cd:latest
+      - name: Delete old container
+        run: docker rm -f react_app-ci_cd-container
+      - name: Run docker container
+        run: docker run -d -p 3000:3000 --name react_app-ci_cd-container ahmedbenchakhter/react_app-ci_cd
+
+
+
