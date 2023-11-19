@@ -11,11 +11,11 @@ RUN npm install
 COPY . .
 
 # build the react app
-RUN npm run build
+RUN npm build
 
 # EXPOSE PORT 
 EXPOSE 3000
 
 # START the app
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "start" ]
 
